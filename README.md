@@ -27,5 +27,7 @@ to suppress info/error messages add:
 
 ### links
 http://radicale.org
+
 http://github.com/Kozea/Radicale/issues/266
+
 http://groups.google.com/forum/#!topic/alt-f/vGUpfxmpfuQ
