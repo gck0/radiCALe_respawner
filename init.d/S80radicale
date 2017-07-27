@@ -1,0 +1,92 @@
+#! /bin/sh
+
+DAEMON="/usr/bin/radicale"
+DAEMON_ARGS="--daemon"
+DAEMON_CONFIG="/etc/radicale/config"
+DAEMON_LOGFILE="/var/log/radicale.log"
+
+NAME=radicale
+
+RADICALE_USER=radicale
+RADICALE_GROUP=users
+PORT=5232
+
+if test ! -f $DAEMON_LOGFILE
+then
+    touch $DAEMON_LOGFILE
+    chown $RADICALE_USER $DAEMON_LOGFILE
+fi
+
+if test ! -x $DAEMON
+then
+    echo "$DAEMON not executable"
+    exit 1
+fi
+
+if test ! -f $DAEMON_CONFIG
+then
+    echo "No config file found at $DAEMON_CONFIG"
+    exit 1
+fi
+
+omsg() {
+    if test $1 = 0
+    then
+        echo "OK."
+    elif test -n "$2"
+    then
+        echo -e "Fail: $2"
+    else
+        echo "Fail."
+    fi
+    return $1
+}
+
+
+case "$1" in
+  start)
+    echo -n "Starting $NAME: "
+    start-stop-daemon -S -q -o -c $RADICALE_USER -x $DAEMON -- $DAEMON_ARGS
+        omsg $?
+    ;;
+
+  stop)
+    echo -n "Stopping $NAME: "
+    start-stop-daemon -K -q -o -n $NAME
+    omsg $?
+    ;;
+
+  #needed when the process hangs
+  kill)
+    echo -n "Stopping $NAME: "
+    start-stop-daemon -K -s SIGKILL -q -o -n $NAME 2>/dev/null
+    omsg $?
+    ;;
+
+  restart)
+    ${0} stop
+    ${0} start
+    ;;
+  
+  force-reload)
+    ${0} kill
+    ${0} start
+    ;;
+  
+
+  #restarts if hanging/freezing, works only if using SSL
+  respawn)
+    echo "" | openssl s_client -connect 127.0.0.1:${PORT} 2>/dev/null | grep -q "CONNECTED"
+    if [ $? == 1 ]; then
+      ${0} force-reload
+    fi
+    ;;
+
+
+  *)
+    echo "Usage: $0 {start|stop|kill|restart|force-reload|respawn}" >&2
+    exit 1
+    ;;
+esac
+
+exit 0
