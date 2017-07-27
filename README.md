@@ -11,7 +11,7 @@ then I put everything in crontab to make sure it can be restarted every hour
 
 the respawn function uses openssl to check if the daemon accepts connections, so it does work only if radicale uses ssl
 
-###install
+### install
 edit as you wish
 put the script in /etc/init.d/
 set up a cronjob (recommended every hour):
@@ -25,7 +25,7 @@ to suppress info/error messages add:
 
 
 
-###links
+### links
 http://radicale.org
 http://github.com/Kozea/Radicale/issues/266
 http://groups.google.com/forum/#!topic/alt-f/vGUpfxmpfuQ
