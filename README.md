@@ -14,13 +14,13 @@ as I am running it on a cheap nas (dns-320L with alt-f firmware) which simply ha
 then I put everything in crontab to make sure it can be restarted every hour  
 
 ### install
-edit as you wish 
-put the script in /etc/init.d/ and chmod +x
-set up a cronjob (recommended every hour): 
+edit as you wish  
+put the script in /etc/init.d/ and chmod +x  
+set up a cronjob (recommended every hour):  
 ```
 /etc/init.d/S80radicale respawn
 ```
-to suppress info/error messages add:
+to suppress info/error messages add:  
 ```
 >/dev/null 2>/dev/null
 ```
