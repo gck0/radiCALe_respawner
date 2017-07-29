@@ -19,6 +19,7 @@ chmod +x
 set up a cronjob (recommended every hour)  
 
 
+
 my crontab setup:
 ```
 0 * * * *   /etc/init.d/S80radicale respawn
@@ -27,6 +28,8 @@ to suppress info/error messages:
 ```
 0 * * * *   /etc/init.d/S80radicale respawn >/dev/null 2>/dev/null
 ```
+
+
 
 ### links
 http://radicale.org  
