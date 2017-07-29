@@ -10,7 +10,7 @@ radiCALe is a CalDAV and CardDAV server
 as many of you have experienced, radiCALe daemon may freeze randomly after some time: when (sh)it happens, only way is to kill -9 it and restart  
 to avoid this issue it needs to run behind a dedicated web server  
 
-as I am running it on a cheap nas (dns-320L with alt-f firmware) which simply hasn't the cpu power to run an httpd, I modified an user posted init.d script with a respawn function  
+as I am running it on a cheap nas (dns-320L with alt-f firmware) which simply hasn't the cpu power to run an httpd, I modified an user posted init.d script and added a respawn function  
 then I put everything in crontab to make sure it can be restarted every hour  
 
 ### install
