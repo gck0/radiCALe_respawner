@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/sh
 
 DAEMON="/usr/bin/radicale"
 DAEMON_ARGS="--daemon"
