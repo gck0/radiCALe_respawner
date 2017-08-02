@@ -1,8 +1,8 @@
 # radiCALe_respawner
-radiCALe 1.1.x respawner script 
+radiCALe 1.1.x watchdog script 
 
 ### what?
-an init.d script to check if radiCALe daemon is accepting SSL connections: if not, it kills and respawns the process  
+an init.d script to check if radiCALe daemon is accepting connections: if not, it kills and respawns the process  
 tested on 1.1.x, it uses openSSL and works only if 'ssl=true' in radicale/config
 
 ### why?
