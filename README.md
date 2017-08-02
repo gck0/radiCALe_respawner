@@ -1,5 +1,5 @@
-# radiCALe_respawner
-radiCALe 1.1.x watchdog script 
+# radiCALe_watchdog
+radiCALe 1.1.x watchdog/respawner script 
 
 ### what?
 an init.d script to check if radiCALe daemon is accepting connections: if not, it kills and respawns the process  
