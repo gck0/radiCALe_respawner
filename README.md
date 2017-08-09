@@ -3,7 +3,7 @@ radiCALe 1.1.x watchdog/respawner script
 
 ### what?
 an init.d script to check if radiCALe daemon is accepting connections: if not, it kills and respawns the process  
-tested on 1.1.x, it uses openSSL and works only if 'ssl=true' in radicale/config
+tested on 1.1.x, with 'ssl=true' in radicale/config
 
 ### why?
 radiCALe is a CalDAV and CardDAV server  
