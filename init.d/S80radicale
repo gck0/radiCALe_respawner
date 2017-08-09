@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# Expects a user named radicale to exist.
+# Expects config file in /etc/radicale.
+
+# Radicale doesn't appear to play nicely with pid files on busybox
+# systems, so we don't mess with them.  This also ends up requiring
+# the "-n" option to be used when stopping the daemon.
+
 DAEMON="/usr/bin/radicale"
 DAEMON_ARGS="--daemon"
 DAEMON_CONFIG="/etc/radicale/config"
@@ -11,6 +18,7 @@ RADICALE_USER=radicale
 RADICALE_GROUP=users
 PORT=5232
 
+# files check
 if test ! -f $DAEMON_LOGFILE
 then
     touch $DAEMON_LOGFILE
@@ -29,6 +37,7 @@ then
     exit 1
 fi
 
+# output
 omsg() {
     if test $1 = 0
     then
@@ -43,6 +52,7 @@ omsg() {
 }
 
 
+# commands
 case "$1" in
   start)
     echo -n "Starting $NAME: "
@@ -58,7 +68,7 @@ case "$1" in
 
   #needed when the process hangs
   kill)
-    echo -n "Stopping $NAME: "
+    echo -n "Killing $NAME: "
     start-stop-daemon -K -s SIGKILL -q -o -n $NAME 2>/dev/null
     omsg $?
     ;;
@@ -67,21 +77,24 @@ case "$1" in
     ${0} stop
     ${0} start
     ;;
-  
+
   force-reload)
     ${0} kill
     ${0} start
     ;;
-  
 
-  #restarts if hanging/freezing, works only if using SSL
+  #reloads if hanging/freezing/crashed
   respawn)
-    echo "" | openssl s_client -connect 127.0.0.1:${PORT} 2>/dev/null | grep -q "CONNECTED"
-    if [ $? == 1 ]; then
+    echo -n "Status $NAME: "
+    curl -s -f -m 5 http://127.0.0.1:${PORT}
+    err=$?
+    if [ $err == 56 -o $err == 0 ]; then
+      echo "OK($err)."
+    else
+      echo "Failed($err)."
       ${0} force-reload
     fi
     ;;
-
 
   *)
     echo "Usage: $0 {start|stop|kill|restart|force-reload|respawn}" >&2
